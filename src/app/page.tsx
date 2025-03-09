@@ -1,6 +1,7 @@
 "use client"
 
 import { ChangeEvent, useEffect, useState } from "react";
+import Example from "./components/example-component/Example";
 
 export default function Home() {
   //let name:string = "Halit";
@@ -37,6 +38,12 @@ export default function Home() {
           setName(e.target.value)
         }} />
       {/* Two way data binding */}
+
+      <Example name="Halit" surname="Kalaycı"/>
+      <Example name="Deniz" surname="Özaltay"/>
+      <Example name="Ali Kemal" surname="Çalak"/>
+      <Example name="Berfin" surname="Özer"/>
+      <Example name="Erdal" surname="Sarı"/>
     </>
   );
 }
