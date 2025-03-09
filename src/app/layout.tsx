@@ -34,3 +34,11 @@ export default function RootLayout({
     </html>
   );
 }
+
+// Sıfır bir nextjs projesi açıp 2 sayfalık kendinizi tanıtan bir websitesi geliştiriniz.
+// 1- Ana sayfa
+// 2- Projelerim sayfası
+
+// API Çağrıları (Frontend)
+// Dinamik Yapılar
+// CSR - SSR

@@ -5,7 +5,8 @@ import Example from "./components/example-component/Example";
 import Link from "next/link";
 
 export default function Home() {
-  //let name:string = "Halit";
+  let name2:string = "Halit";
+  // Generic Yapılar
   let [name, setName] = useState<string>("Halit"); // React Hooks.
 
   const onBtnClick = () => {
