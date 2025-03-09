@@ -12,7 +12,7 @@ export default function Example(props: ExampleProps) {
 
   return (
     <div>
-      Merhaba, {props.name} {props.surname}{" "}
+      Merhaba, {props.name} {props.surname}
       <button
         onClick={() =>
           props.onClick ? props.onClick(`Merhaba ${props.name}`) : null

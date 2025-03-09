@@ -2,6 +2,7 @@
 
 import { ChangeEvent, useEffect, useState } from "react";
 import Example from "./components/example-component/Example";
+import Link from "next/link";
 
 export default function Home() {
   //let name:string = "Halit";
@@ -24,6 +25,8 @@ export default function Home() {
 
   return (
     <>
+      {/* <a href="/about-us">Hakkımızda</a>  YASAK !!*/}
+      <Link href={"/about-us"}> Hakkımızda Sayfası </Link>
       <p>{name}</p>
       <button
         onClick={(e) => {
@@ -48,7 +51,7 @@ export default function Home() {
         surname="Kalaycı"
         onClick={(message: string) => alert(message)}
       />
-      <Example name="Deniz" surname="Özaltay" />
+      <Example name="Deniz" surname="Özaltay"></Example>
       <Example name="Ali Kemal" surname="Çalak" />
       <Example name="Berfin" surname="Özer" />
       <Example name="Erdal" surname="Sarı" />
