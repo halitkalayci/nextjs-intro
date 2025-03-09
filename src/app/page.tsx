@@ -1,6 +1,6 @@
 "use client"
 
-import { ChangeEvent, useState } from "react";
+import { ChangeEvent, useEffect, useState } from "react";
 
 export default function Home() {
   //let name:string = "Halit";
@@ -8,14 +8,27 @@ export default function Home() {
 
   const onBtnClick = () => {
     console.log("Butona tıklandı.")
-    setName("Deniz")
-    console.log(name);
+    setName("Deniz") // -> Async?
   }
+
+  // hook -> useEffect eğer dep list boş ise sayfa açıldığında 1 kere çalışır.
+  useEffect(() => {
+    console.log("abc");
+  } , []) //dep.list
+
+  // name değişkeninin değişikliklerini izler.
+  useEffect(() => {
+    console.log(name)
+  }, [name])
+
 
   return (
     <>
       <p>{name}</p>
-      <button onClick={onBtnClick}>Değiştir</button>
+      <button onClick={(e) => {
+        console.log(e);
+        onBtnClick();
+        }}>Değiştir</button>
       <input placeholder="İsminizi giriniz.." 
         value={name}
         onChange={
@@ -29,3 +42,4 @@ export default function Home() {
 }
 // *-> Componentler tek wrappera sahip olmak zorundadır.
 // React'in state mantığı.
+// 16:00
