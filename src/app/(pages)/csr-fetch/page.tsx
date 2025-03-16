@@ -3,22 +3,22 @@
 import { useEffect, useState } from "react";
 
 export default function CsrFetchPage() {
-  const [toDos, setToDos] = useState<any>([]);
-  const fetchToDos = async () => {
-    const response = await fetch("https://jsonplaceholder.typicode.com/todos");
+  const [products, setProducts] = useState<any>([]);
+  const fetchProducts = async () => {
+    const response = await fetch("/api/products");
     const data = await response.json();
-    setToDos(data);
+    setProducts(data);
   };
 
   useEffect(() => {
-    fetchToDos();
+    fetchProducts();
     console.log("abc");
   }, []);
 
   return (
     <>
-      {toDos.map((todo: any) => (
-        <p key={todo.id}>{todo.title}</p>
+      {products.map((todo: any) => (
+        <p key={todo.id}>{todo.name} {todo.price}</p>
       ))}
     </>
   );

@@ -1,6 +1,6 @@
 export default async function Home() {
   // Fetch -> Bir backendden veri çekme.
-  const response = await fetch("https://jsonplaceholder.typicode.com/todos");
+  const response = await fetch("http://localhost:3000/api/products");
   const data = await response.json();
   console.log(data)
 
@@ -8,7 +8,7 @@ export default async function Home() {
     <>
       <p>Merhaba</p>
       <p>{data.length}</p>
-      {data.map((todo:any) => <p>{todo.title}</p>)}
+      {data.map((product:any) => <p>{product.name} {product.price}</p>)}
     </>
   );
 }
