@@ -1,5 +1,6 @@
 // HTTP Request Anatomy araştırılacak.
 
+// In-Memory DB
 const products = [
   { id: 1, name: "Ürün 1", price: 500 },
   { id: 2, name: "Ürün 2", price: 600 },

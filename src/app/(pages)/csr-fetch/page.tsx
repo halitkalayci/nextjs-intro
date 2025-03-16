@@ -18,7 +18,7 @@ export default function CsrFetchPage() {
   return (
     <>
       {products.map((todo: any) => (
-        <p key={todo.id}>{todo.name} {todo.price}</p>
+        <p  key={todo.id}>{todo.name} {todo.price}</p>
       ))}
     </>
   );
