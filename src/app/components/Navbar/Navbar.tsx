@@ -35,6 +35,7 @@ export default function Navbar() {
         </Link>
 
         {/* Desktop Navbar */}
+        {/* md:flex -> Medium ve üstü ekranlarda flex yapısıyla gözük. */}
         <div className="hidden md:flex space-x-6">
           <Link href={"/"}>Ana Sayfa</Link>
           <Link href={"/"}>Hakkımızda</Link>
@@ -44,13 +45,14 @@ export default function Navbar() {
 
         {/* Mobile Navbar Button */}
         <div className="md:hidden">
-          <Button variant="ghost" size="icon" onClick={toggleMenu}>
+          <Button className="cursor-pointer" variant="ghost" size="icon" onClick={toggleMenu}>
            {isMobileMenuOpen ? <X/> : <Menu />}
           </Button>
         </div>
         {/* Mobile Navbar Button*/}
         {/* Mobile Navbar */}
 
+        {/* md:hidden -> Medium ve üstü ekranlarda hidden yani görünmez olması */}
         <div className={"fixed inset-0 top-16 bg-background z-50 md:hidden " + (isMobileMenuOpen ? "flex flex-col" : "hidden")}>
         <div className="flex flex-col space-y-4 p-6">
           <Link href={"/"}>Ana Sayfa</Link>
