@@ -1,14 +1,55 @@
-export default async function Home() {
-  // Fetch -> Bir backendden veri çekme.
-  const response = await fetch("http://localhost:3000/api/products");
-  const data = await response.json();
-  console.log(data)
+import { Button } from "@/components/ui/button";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+import Link from "next/link";
 
+export default async function Home() {
   return (
-    <>
-      <p>Merhaba</p>
-      <p>{data.length}</p>
-      {data.map((product:any) => <p>{product.name} {product.price}</p>)}
-    </>
+    <nav className="border-b bg-background sticky top-0 z-50">
+      <div
+        className="container flex 
+      items-center 
+      h-16
+      mx-auto
+      px-4
+      justify-between"
+      >
+        <Link className="font-bold text-xl" href={"/"}>
+          ECommerce
+        </Link>
+
+        <div className="flex space-x-6">
+          <Link href={"/"}>Ana Sayfa</Link>
+          <Link href={"/"}>Hakkımızda</Link>
+          <Link href={"/"}>Ürünler</Link>
+        </div>
+
+        <div>
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <Button>
+                Dil
+              </Button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent>
+              <DropdownMenuLabel>Dil Seçiniz</DropdownMenuLabel>
+              <DropdownMenuSeparator />
+              <DropdownMenuItem>Türkçe</DropdownMenuItem>
+              <DropdownMenuItem>İngilizce</DropdownMenuItem>
+            </DropdownMenuContent>
+          </DropdownMenu>
+        </div>
+      </div>
+    </nav>
   );
+}
+
+{
+  /* <p class="abc"></p> */
 }
