@@ -7,6 +7,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import { Menu } from "lucide-react";
 import Link from "next/link";
 
 export default async function Home() {
@@ -24,27 +25,41 @@ export default async function Home() {
           ECommerce
         </Link>
 
-        <div className="flex space-x-6">
+        {/* Desktop Navbar */}
+        <div className="hidden md:flex space-x-6">
           <Link href={"/"}>Ana Sayfa</Link>
           <Link href={"/"}>Hakkımızda</Link>
           <Link href={"/"}>Ürünler</Link>
         </div>
+        {/* Desktop Navbar */}
 
-        <div>
+        {/* Mobile Navbar */}
+        <div className="md:hidden">
+          <Button variant="ghost" size="icon">
+            <Menu/>
+          </Button>
+        </div>
+        {/* Mobile Navbar */}
+
+
+        <div className="hidden md:flex">
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
-              <Button>
+              <Button className="cursor-pointer">
                 Dil
               </Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent>
               <DropdownMenuLabel>Dil Seçiniz</DropdownMenuLabel>
               <DropdownMenuSeparator />
-              <DropdownMenuItem>Türkçe</DropdownMenuItem>
-              <DropdownMenuItem>İngilizce</DropdownMenuItem>
+              <DropdownMenuItem className="cursor-pointer">Türkçe</DropdownMenuItem>
+              <DropdownMenuItem className="cursor-pointer">İngilizce</DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>
         </div>
+
+
+
       </div>
     </nav>
   );
