@@ -1,6 +1,8 @@
 // HTTP Request Anatomy araştırılacak.
 
+import { Product } from "@/lib/db/models/Product";
 import { connectToDatabase } from "@/lib/db/mongodb";
+import { json } from "stream/consumers";
 
 // In-Memory DB
 const products = [
@@ -12,39 +14,24 @@ const products = [
 
 export async function GET() {
   // Veritabanından oku?
-  try{
-    await connectToDatabase();
-    return new Response(JSON.stringify({message:"Veritabanı bağlantısı başarılı."}), {
-      headers: { "Content-Type": "application/json" },
-    });
-  }catch(error:any)
-  {
-    return new Response(JSON.stringify({message:"Veritabanı bağlantısı başarısız.", error}), {
-      headers: { "Content-Type": "application/json" },
-    });
-  }
+  await connectToDatabase();
+
+  const products = await Product.find();
+  console.log(products);
+
+  return new Response(JSON.stringify(products), {
+    headers: { "Content-Type": "application/json" },
+  });
 }
 
 export async function POST(req: Request) {
+  await connectToDatabase();
   const body = await req.json();
-  if (!body.name || !body.price)
-    return new Response(
-      JSON.stringify({ error: "Name ve price alanı zorunludur." }),
-      { status: 400, headers: { "Content-Type": "application/json" } }
-    );
+  const addedProduct = await Product.create(body);
 
-   const newProduct = {
-    id: products.length + 1,
-    name: body.name,
-    price: body.price
-   };
-
-   products.push(newProduct)
-
-   return new Response(JSON.stringify({message:"Ürün başarıyla eklendi", product: newProduct}), {
-    status: 201,
-    headers: {"Content-Type":"application/json"}
-   })
+  return new Response(JSON.stringify(addedProduct), {
+    headers: { "Content-Type": "application/json" },
+  });
 }
 
 // 1- RDBMS - NOSQL (PostgreSQL - MongoDB)

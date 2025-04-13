@@ -1,5 +1,6 @@
 import mongoose, { Document, Model, Schema } from "mongoose";
 
+// TANIM => Kodda product ne alanları içeriyor?
 export interface IProduct extends Document
 {
     name: string;
@@ -8,6 +9,7 @@ export interface IProduct extends Document
     stock: number;
 }
 
+// DB seviyesinde Product'ın şeması?
 const ProductSchema: Schema<IProduct> = new Schema(
     {
         name: {type:String,required:true, minlength:2},
@@ -18,4 +20,5 @@ const ProductSchema: Schema<IProduct> = new Schema(
     {timestamps:true} //TODO: Üzerine konuşulacak
 );
 
+// Tüm sistemde bu şema-tanım bağlantısının kullanılacağı değişken.
 export const Product: Model<IProduct> = mongoose.models.Product || mongoose.model<IProduct>('Product', ProductSchema)
