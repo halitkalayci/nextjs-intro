@@ -1,6 +1,6 @@
 // HTTP Request Anatomy araştırılacak.
 
-import { connectToDatabase } from "@/lib/mongodb";
+import { connectToDatabase } from "@/lib/db/mongodb";
 
 // In-Memory DB
 const products = [
