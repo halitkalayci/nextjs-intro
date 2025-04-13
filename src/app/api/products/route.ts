@@ -1,5 +1,7 @@
 // HTTP Request Anatomy araştırılacak.
 
+import { connectToDatabase } from "@/lib/mongodb";
+
 // In-Memory DB
 const products = [
   { id: 1, name: "Ürün 1", price: 500 },
@@ -10,9 +12,17 @@ const products = [
 
 export async function GET() {
   // Veritabanından oku?
-  return new Response(JSON.stringify(products), {
-    headers: { "Content-Type": "application/json" },
-  });
+  try{
+    await connectToDatabase();
+    return new Response(JSON.stringify({message:"Veritabanı bağlantısı başarılı."}), {
+      headers: { "Content-Type": "application/json" },
+    });
+  }catch(error:any)
+  {
+    return new Response(JSON.stringify({message:"Veritabanı bağlantısı başarısız.", error}), {
+      headers: { "Content-Type": "application/json" },
+    });
+  }
 }
 
 export async function POST(req: Request) {
