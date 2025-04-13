@@ -2,16 +2,10 @@
 
 import { Product } from "@/lib/db/models/Product";
 import { connectToDatabase } from "@/lib/db/mongodb";
-import { json } from "stream/consumers";
 
-// In-Memory DB
-const products = [
-  { id: 1, name: "Ürün 1", price: 500 },
-  { id: 2, name: "Ürün 2", price: 600 },
-  { id: 3, name: "Ürün 3", price: 700 },
-  { id: 4, name: "Ürün 4", price: 800 },
-];
-
+// Ödev 1: Bir search endpointi yazıp gelen name değeri ile arama yapılmalı. "kla" -> klavye ürünü klarnet ürünü listelenmeli.
+// Ödev 2: Mongodb ve mongoose fonksiyonları araştırıp kullanalım.
+// Ödev 3: Geçen ödevde tasarladığımız product-cardları backendden veritabanındaki ürünleri listeleyecek şekilde CSR sayfada gösteriniz.
 export async function GET() {
   // Veritabanından oku?
   await connectToDatabase();
