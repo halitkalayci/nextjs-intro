@@ -6,12 +6,12 @@ import { connectToDatabase } from "@/lib/db/mongodb";
 // Ödev 1: Bir search endpointi yazıp gelen name değeri ile arama yapılmalı. "kla" -> klavye ürünü klarnet ürünü listelenmeli.
 // Ödev 2: Mongodb ve mongoose fonksiyonları araştırıp kullanalım.
 // Ödev 3: Geçen ödevde tasarladığımız product-cardları backendden veritabanındaki ürünleri listeleyecek şekilde CSR sayfada gösteriniz.
+
+// JWT
 export async function GET() {
-  // Veritabanından oku?
   await connectToDatabase();
 
   const products = await Product.find();
-  console.log(products);
 
   return new Response(JSON.stringify(products), {
     headers: { "Content-Type": "application/json" },
