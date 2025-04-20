@@ -1,28 +1,37 @@
 // /pages/api/upload.ts
 
 import { NextApiRequest, NextApiResponse } from "next";
-import { createRouter } from "next-connect";
+import nc from "next-connect";
 import multer from "multer";
 import streamifier from "streamifier";
 import cloudinary from "cloudinary";
 
+// Cloudinary yapılandırması .env.local dosyasından alınıyor
 cloudinary.v2.config({
-  cloud_name: "senin_cloud_name",
-  api_key: "senin_api_key",
-  api_secret: "senin_api_secret",
+  cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
+  api_key: process.env.CLOUDINARY_API_KEY,
+  api_secret: process.env.CLOUDINARY_API_SECRET,
 });
 
-// Multer belleğe alacak şekilde ayarlanıyor
 const upload = multer({ storage: multer.memoryStorage() });
 
-const apiRoute = createRouter<NextApiRequest, NextApiResponse>();
+const handler = nc<NextApiRequest, NextApiResponse>({
+  onError: (err, req, res, next) => {
+    console.error("API Error:", err);
+    res.status(500).json({ error: "Sunucu hatası", details: err.message });
+  },
+  onNoMatch: (req, res) => {
+    res.status(405).json({ error: "Method izin verilmiyor" });
+  },
+});
 
-// 👇️ Mutlaka cast et, yoksa TypeScript ağlıyor
-apiRoute.use(upload.single("image") as any);
+handler.use(upload.single("file") as any);
 
-apiRoute.post(async (req: any, res) => {
+handler.post(async (req: any, res) => {
+  console.log("POST isteği alındı", req.file ? "Dosya var" : "Dosya yok", req.body);
+  
   if (!req.file) {
-    return res.status(400).json({ error: "No file uploaded" });
+    return res.status(400).json({ error: "Dosya yüklenmedi" });
   }
 
   try {
@@ -37,10 +46,10 @@ apiRoute.post(async (req: any, res) => {
       streamifier.createReadStream(req.file.buffer).pipe(uploadStream);
     });
 
-    return res.status(200).json({ message: "Uploaded", result });
+    return res.status(200).json({ message: "Yüklendi", result });
   } catch (error) {
-    console.error("Upload error:", error);
-    return res.status(500).json({ error: "Upload failed" });
+    console.error("Yükleme hatası:", error);
+    return res.status(500).json({ error: "Yükleme başarısız oldu" });
   }
 });
 
@@ -50,4 +59,4 @@ export const config = {
   },
 };
 
-export default apiRoute.handler();
+export default handler;
