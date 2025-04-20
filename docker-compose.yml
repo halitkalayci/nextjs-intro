@@ -17,6 +17,8 @@ services:
       - 8081:8081
     environment:
       - ME_CONFIG_MONGODB_URL=mongodb://admin:admin@mongo:27017/?authSource=admin
+      - ME_CONFIG_BASICAUTH_USERNAME=admin
+      - ME_CONFIG_BASICAUTH_PASSWORD=admin
     networks:
       - mongo-network
 
