@@ -6,11 +6,23 @@ services:
     environment:
       - MONGO_INITDB_ROOT_USERNAME=admin
       - MONGO_INITDB_ROOT_PASSWORD=admin
+      - MONGO_INITDB_DATABASE=admin
+    networks:
+      - mongo-network
+    volumes:
+      - mongo-data:/data/db
   mongo-express:
     image: mongo-express
     ports:
       - 8081:8081
     environment:
-      - ME_CONFIG_MONGODB_ADMINUSER=admin
-      - ME_CONFIG_MONGODB_ADMINPASSWORD=admin
-      - ME_CONFIG_MONGODB_SERVER=mongo
+      - ME_CONFIG_MONGODB_URL=mongodb://admin:admin@mongo:27017/?authSource=admin
+    networks:
+      - mongo-network
+
+networks:
+  mongo-network:
+    driver: bridge
+
+volumes:
+  mongo-data:
