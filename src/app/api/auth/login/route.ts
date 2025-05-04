@@ -2,6 +2,7 @@ import { User } from "@/lib/db/models/User";
 import { connectToDatabase } from "@/lib/db/mongodb";
 import { NextResponse } from "next/server";
 import jwt from "jsonwebtoken";
+import { cookies } from "next/headers";
 
 
 const JWT_SECRET = process.env.JWT_SECRET || "gizliAnahtar123";
@@ -30,6 +31,19 @@ export async function POST(req:Request)
       { expiresIn: '10m', algorithm:"HS512" }
     )
 
-    return new Response(JSON.stringify({message: "Login successful", token}), {status: 200, headers: {"Content-Type": "application/json"}});
+    const cookie = await cookies();
+    cookie.set(
+      {
+         name:"token",
+         value: token,
+         httpOnly:true,
+         maxAge:  7 * 24 * 60 * 60,
+         path: '/',
+         secure: process.env.NODE_ENV === 'production',
+         sameSite: 'lax' // strict,lax,none => 
+      }
+    );
+
+    return NextResponse.json({message:"Login successfull", token}, {status:200});
 }
 
