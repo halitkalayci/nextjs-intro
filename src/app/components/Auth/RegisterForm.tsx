@@ -26,6 +26,8 @@ import { useForm } from "react-hook-form";
 import { useState } from "react";
 import Link from "next/link";
 import { Eye, EyeOff, Loader2 } from "lucide-react";
+import { useRouter } from "next/navigation";
+import { toast } from "sonner";
 
 const registerFormSchema = z.object({
   name: z.string()
@@ -46,6 +48,7 @@ type RegisterFormValues = z.infer<typeof registerFormSchema>;
 export default function RegisterForm() {
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [showPassword, setShowPassword] = useState<boolean>(false);
+  const router = useRouter();
 
   const form = useForm<RegisterFormValues>({
     resolver: zodResolver(registerFormSchema),
@@ -59,18 +62,31 @@ export default function RegisterForm() {
   const onSubmit = async (data: RegisterFormValues) => {
     setIsLoading(true);
     try {
-      // Burada API isteği yapılacak
-      console.log("Form verileri:", data);
+      const response = await fetch('/api/auth/register', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(data),
+      });
+
+      const result = await response.json();
+
+      if (!response.ok) {
+        throw new Error(result.message || 'Kayıt sırasında bir hata oluştu');
+      }
+
+      // Başarılı kayıt
+      toast.success('Kayıt başarılı!');
       
-      // Simüle edilmiş API isteği için gecikme
-      await new Promise((resolve) => setTimeout(resolve, 1500));
+      // Login sayfasına yönlendir
+      setTimeout(() => {
+        router.push('/auth/login');
+      }, 1500);
       
-      alert("Kayıt başarılı! Giriş sayfasına yönlendiriliyorsunuz.");
-      // Kayıt başarılı olduğunda giriş sayfasına yönlendirme yapılabilir
-      // router.push("/auth/login");
-    } catch (error) {
+    } catch (error: any) {
       console.error("Kayıt sırasında hata:", error);
-      alert("Kayıt sırasında bir hata oluştu. Lütfen tekrar deneyin.");
+      toast.error(error.message || 'Kayıt sırasında bir hata oluştu. Lütfen tekrar deneyin.');
     } finally {
       setIsLoading(false);
     }

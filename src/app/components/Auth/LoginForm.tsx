@@ -24,6 +24,8 @@ import { useForm } from "react-hook-form";
 import { useState } from "react";
 import Link from "next/link";
 import { Eye, EyeOff, Loader2 } from "lucide-react";
+import { useRouter } from "next/navigation";
+import { toast } from "sonner";
 
 const loginFormSchema = z.object({
   email: z.string()
@@ -38,6 +40,7 @@ type LoginFormValues = z.infer<typeof loginFormSchema>;
 export default function LoginForm() {
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [showPassword, setShowPassword] = useState<boolean>(false);
+  const router = useRouter();
 
   const form = useForm<LoginFormValues>({
     resolver: zodResolver(loginFormSchema),
@@ -50,18 +53,32 @@ export default function LoginForm() {
   const onSubmit = async (data: LoginFormValues) => {
     setIsLoading(true);
     try {
-      // Burada API isteği yapılacak
-      console.log("Form verileri:", data);
+      const response = await fetch('/api/auth/login', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(data),
+      });
+
+      const result = await response.json();
+
+      if (!response.ok) {
+        throw new Error(result.message || 'Giriş sırasında bir hata oluştu');
+      }
+
+      // Başarılı giriş
+      toast.success('Giriş başarılı!');
       
-      // Simüle edilmiş API isteği için gecikme
-      await new Promise((resolve) => setTimeout(resolve, 1500));
+      // Anasayfaya yönlendir
+      setTimeout(() => {
+        router.push('/');
+        router.refresh();
+      }, 1000);
       
-      alert("Giriş başarılı!");
-      // Giriş başarılı olduğunda anasayfaya yönlendirme yapılabilir
-      // router.push("/");
-    } catch (error) {
+    } catch (error: any) {
       console.error("Giriş sırasında hata:", error);
-      alert("Giriş sırasında bir hata oluştu. Lütfen tekrar deneyin.");
+      toast.error(error.message || 'Giriş sırasında bir hata oluştu. Lütfen tekrar deneyin.');
     } finally {
       setIsLoading(false);
     }

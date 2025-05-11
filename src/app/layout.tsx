@@ -5,7 +5,7 @@ import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import Navbar from "./components/Navbar/Navbar";
-
+import { Toaster } from "sonner";
 
 export const metadata: Metadata = {
   title: "ECommerce",
@@ -21,6 +21,7 @@ export default function RootLayout({
     <html lang="en">
       <body>
         <Navbar />
+        <Toaster position="bottom-right" richColors />
         {children}
       </body>
     </html>
