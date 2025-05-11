@@ -67,15 +67,24 @@ export default function Navbar() {
             <Link href={"/"}>Ana Sayfa</Link>
             <Link href={"/"}>Hakkımızda</Link>
             <Link href={"/"}>Ürünler</Link>
+            <Link href={"/auth/login"}>Giriş Yap</Link>
+            <Link href={"/auth/register"}>Kayıt Ol</Link>
           </div>
         </div>
 
         {/* Mobile Navbar*/}
 
-        <div className="hidden md:flex">
+        <div className="hidden md:flex items-center space-x-4">
+          <Link href={"/auth/login"}>
+            <Button variant="outline">Giriş Yap</Button>
+          </Link>
+          <Link href={"/auth/register"}>
+            <Button>Kayıt Ol</Button>
+          </Link>
+        
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
-              <Button className="cursor-pointer">Dil</Button>
+              <Button className="cursor-pointer" variant="outline">Dil</Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent>
               <DropdownMenuLabel>Dil Seçiniz</DropdownMenuLabel>
