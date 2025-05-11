@@ -6,21 +6,21 @@ export default async function Home() {
   const products = [
     {
       id: 1,
-      imageSrc: "/images/converse.jpg",
+      imageSrc: ["/images/a1.png", "/images/a2.png"],
       title: "Kırmızı Topuklu Ayakkabı",
       description: "Özel tasarım, yüksek kaliteli deri kırmızı topuklu ayakkabı",
       price: 45.00,
     },
     {
       id: 2,
-      imageSrc: "/images/converse.jpg",
+      imageSrc: ["/images/a2.png", "/images/a1.png"],
       title: "Mavi Topuklu Ayakkabı",
       description: "Konforlu ve şık tasarımlı mavi topuklu ayakkabı",
       price: 42.50,
     },
     {
       id: 3,
-      imageSrc: "/images/converse.jpg",
+      imageSrc: ["/images/a1.png", "/images/a2.png"],
       title: "Siyah Topuklu Ayakkabı",
       description: "Klasik siyah topuklu ayakkabı, her kıyafete uygun",
       price: 39.99,

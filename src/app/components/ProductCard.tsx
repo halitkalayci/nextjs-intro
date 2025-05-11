@@ -1,9 +1,19 @@
+"use client"
+
 import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardFooter, CardHeader } from "@/components/ui/card";
+import {
+  Carousel,
+  CarouselContent,
+  CarouselItem,
+  CarouselNext,
+  CarouselPrevious,
+} from "@/components/ui/carousel";
+import { useEffect, useState } from "react";
 
 interface ProductCardProps {
-  imageSrc: string;
+  imageSrc: string | string[];
   title: string;
   description: string;
   price: number;
@@ -19,20 +29,42 @@ export default function ProductCard({
   colors = ["#FF6B6B", "#4ECDC4", "#FFD166"],
   logo = "YourLogo",
 }: ProductCardProps) {
+  // İmaj dizisini hazırla
+  const [images, setImages] = useState<string[]>([]);
+
+  useEffect(() => {
+    // Tek bir resim veya resim dizisi olabilir
+    if (typeof imageSrc === "string") {
+      setImages([imageSrc]);
+    } else {
+      setImages(imageSrc);
+    }
+  }, [imageSrc]);
+
   return (
     <Card className="w-72 overflow-hidden shadow-sm transition-all duration-300 hover:shadow-md">
       <CardHeader className="relative bg-amber-100 p-4 pb-16">
-        <div className="absolute right-4 top-4 font-medium text-gray-700">
+        <div className="absolute right-4 top-4 z-10 font-medium text-gray-700">
           {logo}
         </div>
-        <div className="flex h-56 items-center justify-center">
-          <Image
-            src={imageSrc}
-            alt={title}
-            width={200}
-            height={200}
-            className="object-contain"
-          />
+        <div className="h-56">
+          <Carousel opts={{loop:true}} className="h-full w-full">
+            <CarouselContent className="h-full">
+              {images.map((img, index) => (
+                <CarouselItem key={index} className="h-full flex items-center justify-center">
+                  <Image
+                    src={img}
+                    alt={`${title} - Görsel ${index + 1}`}
+                    width={200}
+                    height={200}
+                    className="object-contain"
+                  />
+                </CarouselItem>
+              ))}
+            </CarouselContent>
+            <CarouselPrevious className="left-2" />
+            <CarouselNext className="right-2" />
+          </Carousel>
         </div>
         <div className="absolute left-4 bottom-4">
           <div className="flex gap-1">
@@ -77,3 +109,7 @@ export default function ProductCard({
     </Card>
   );
 } 
+
+// Hakkımızda,
+// Ürünler (Backend bağlı. Resimlerle birlikte.),
+// Sepet ekranlarını tasarlamak.
