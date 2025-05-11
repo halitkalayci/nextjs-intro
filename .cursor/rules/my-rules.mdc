@@ -1,0 +1,10 @@
+---
+description: 
+globs: 
+alwaysApply: true
+---
+Bu projede bütün tasarımsal yapı `shadcn` ve `tailwindcss` kullanmalıdır bunun dışındaki kütüphaneler kullanılmamalıdır.
+
+Bu projede sayfalar `(pages)` klasörü altına oluşturulmalıdır.
+
+
