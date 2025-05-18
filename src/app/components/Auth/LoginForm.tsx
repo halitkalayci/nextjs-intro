@@ -18,7 +18,6 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
-import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { useState } from "react";
@@ -26,16 +25,7 @@ import Link from "next/link";
 import { Eye, EyeOff, Loader2 } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
-
-const loginFormSchema = z.object({
-  email: z.string()
-    .min(3, { message: "E-posta en az 3 karakter olmalıdır" })
-    .email({ message: "Geçerli bir e-posta adresi giriniz" }),
-  password: z.string()
-    .min(3, { message: "Şifre en az 3 karakter olmalıdır" }),
-});
-
-type LoginFormValues = z.infer<typeof loginFormSchema>;
+import { loginFormSchema, LoginFormValues } from "@/app/validations/auth/loginFormSchema";
 
 export default function LoginForm() {
   const [isLoading, setIsLoading] = useState<boolean>(false);
