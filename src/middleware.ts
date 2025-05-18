@@ -1,7 +1,7 @@
 import { jwtVerify } from "jose";
 import { NextRequest, NextResponse } from "next/server";
 
-const PUBLIC_PATHS = ['/api/auth/login', '/api/auth/register','/api/public']
+const PUBLIC_PATHS = ['/api/auth/login', '/api/auth/register', '/api/public', '/api/auth/user']
 
 // Tüm istekler için araya girer.
 

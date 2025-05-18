@@ -60,11 +60,9 @@ export default function LoginForm() {
       // Başarılı giriş
       toast.success('Giriş başarılı!');
       
-      // Anasayfaya yönlendir
-      setTimeout(() => {
-        router.push('/');
-        router.refresh();
-      }, 1000);
+      // Anasayfaya yönlendir - süreyi azaltarak hemen yönlendirme yapalım
+      router.push('/');
+      router.refresh();
       
     } catch (error: any) {
       console.error("Giriş sırasında hata:", error);

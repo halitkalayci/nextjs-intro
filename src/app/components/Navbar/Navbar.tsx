@@ -8,12 +8,35 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import { getUserNameAsync } from "@/lib/jwtClient";
 import { Menu, X } from "lucide-react";
 import Link from "next/link";
-import { useState } from "react";
+import { usePathname } from "next/navigation";
+import { useEffect, useState } from "react";
 
 export default function Navbar() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState<boolean>(false);
+  const [userName, setUserName] = useState<string | null>(null);
+  const [isLoading, setIsLoading] = useState<boolean>(true);
+  const pathname = usePathname();
+
+  // Sayfa değiştiğinde veya ilk yüklemede token kontrolü yap
+  useEffect(() => {
+    const fetchUserName = async () => {
+      setIsLoading(true);
+      try {
+        const name = await getUserNameAsync();
+        setUserName(name);
+      } catch (error) {
+        console.error("Kullanıcı adı alınırken hata:", error);
+        setUserName(null);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    fetchUserName();
+  }, [pathname]);
 
   const toggleMenu = () => {
     setIsMobileMenuOpen(!isMobileMenuOpen);
@@ -67,20 +90,36 @@ export default function Navbar() {
             <Link href={"/"}>Ana Sayfa</Link>
             <Link href={"/"}>Hakkımızda</Link>
             <Link href={"/"}>Ürünler</Link>
-            <Link href={"/auth/login"}>Giriş Yap</Link>
-            <Link href={"/auth/register"}>Kayıt Ol</Link>
+            {isLoading ? (
+              <div>Yükleniyor...</div>
+            ) : !userName ? (
+              <>
+                <Link href={"/auth/login"}>Giriş Yap</Link>
+                <Link href={"/auth/register"}>Kayıt Ol</Link>
+              </>
+            ) : (
+              <div className="font-medium">Merhaba {userName}</div>
+            )}
           </div>
         </div>
 
         {/* Mobile Navbar*/}
 
         <div className="hidden md:flex items-center space-x-4">
-          <Link href={"/auth/login"}>
-            <Button variant="outline">Giriş Yap</Button>
-          </Link>
-          <Link href={"/auth/register"}>
-            <Button>Kayıt Ol</Button>
-          </Link>
+          {isLoading ? (
+            <div>Yükleniyor...</div>
+          ) : !userName ? (
+            <>
+              <Link href={"/auth/login"}>
+                <Button variant="outline">Giriş Yap</Button>
+              </Link>
+              <Link href={"/auth/register"}>
+                <Button>Kayıt Ol</Button>
+              </Link>
+            </>
+          ) : (
+            <div className="font-medium">Merhaba {userName}</div>
+          )}
         
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
