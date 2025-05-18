@@ -8,3 +8,5 @@ Bu projede bütün tasarımsal yapı `shadcn` ve `tailwindcss` kullanmalıdır b
 Bu projede sayfalar `(pages)` klasörü altına oluşturulmalıdır.
 
 Bu projedeki bütün validasyonlar `zod` kütüphanesi ile ayrı bir schema dosyası olarak oluşturulmalı backend ve frontend burayı ortak kullanmalı.
+
+Bu projedeki bütün iş kuralları `businessRules` dosyası olarak oluşturulmalı (ilgili entity için) ve global exception handling ile error fırlatılarak kullanılmalı.

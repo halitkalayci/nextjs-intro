@@ -3,7 +3,9 @@
 import { productFormSchema } from "@/app/validations/product/productFormSchema";
 import { Product } from "@/lib/db/models/Product";
 import { connectToDatabase } from "@/lib/db/mongodb";
-import { NextResponse } from "next/server";
+import { withErrorHandler } from "@/lib/handler/with-error-handler";
+import { productBusinessRules } from "@/lib/rules/productBusinessRules";
+import { NextRequest, NextResponse } from "next/server";
 
 // Ödev 1: Bir search endpointi yazıp gelen name değeri ile arama yapılmalı. "kla" -> klavye ürünü klarnet ürünü listelenmeli.
 // Ödev 2: Mongodb ve mongoose fonksiyonları araştırıp kullanalım.
@@ -20,7 +22,7 @@ export async function GET() {
   });
 }
 
-export async function POST(req: Request) {
+export const POST = withErrorHandler(async (req: NextRequest) => {
   await connectToDatabase();
   const body = await req.json();
   const result = productFormSchema.safeParse(body);
@@ -29,12 +31,16 @@ export async function POST(req: Request) {
     return NextResponse.json(result.error.format(), {status:400});
   }
   
+  // Ürün adı benzersizlik kontrolü
+  await productBusinessRules.checkNameUniqueness(result.data.name);
+  
   const addedProduct = await Product.create(result.data);
 
-  return new Response(JSON.stringify(addedProduct), {
-    headers: { "Content-Type": "application/json" },
+  return NextResponse.json(addedProduct, {
+    status: 201,
+    headers: { "Content-Type": "application/json" }
   });
-}
+});
 
 // 1- RDBMS - NOSQL (PostgreSQL - MongoDB)
 // Prisma - Mongoose
