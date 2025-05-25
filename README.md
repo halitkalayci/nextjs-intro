@@ -1,5 +1,28 @@
 This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
 
+## Features
+
+### Rate Limiting
+Bu proje IP bazlı rate limiting özelliği içerir:
+- **Limit**: Dakikada maksimum 5 istek
+- **Kapsam**: Tüm API endpoint'leri
+- **Headers**: `X-RateLimit-Limit`, `X-RateLimit-Remaining`, `X-RateLimit-Reset`
+- **Error Response**: 429 status kodu ile `RATE_LIMIT_EXCEEDED` hatası
+
+#### Rate Limiting Test Endpoint'leri
+- `GET /api/test/rate-limit` - Rate limiting'i test etmek için
+- `GET /api/admin/rate-limit` - Cache istatistiklerini görüntüle
+- `DELETE /api/admin/rate-limit` - Tüm cache'i temizle
+- `DELETE /api/admin/rate-limit?ip=<IP>` - Belirli IP için cache'i temizle
+- `PATCH /api/admin/rate-limit` - Süresi dolmuş cache girişlerini temizle
+
+#### Rate Limiting Mimarisi
+- **Business Rules**: `src/lib/rules/rateLimitBusinessRules.ts`
+- **Schema Validation**: `src/app/validations/middleware/rateLimitSchema.ts`
+- **Error Handling**: `src/lib/handler/types/errorTypes.ts` (RateLimitError)
+- **Utilities**: `src/lib/utils/rateLimitUtils.ts`
+- **Middleware**: `src/middleware.ts`
+
 ## Getting Started
 
 First, run the development server:
